@@ -30,7 +30,6 @@ class TestPermissionView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        # Проверяем право вручную
         has_perm = PermissionChecker.has_permission(
             user=request.user, element_code="users", permission_code="read"
         )

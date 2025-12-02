@@ -74,7 +74,6 @@ class ProductsView(APIView):
         """Получить список товаров (фильтруется по правам)"""
         user_id = request.user.id
 
-        # ПРОСТАЯ проверка прав
         has_permission = PermissionChecker.has_permission(
             user=request.user, element_code="products", permission_code="read"
         )
@@ -85,11 +84,9 @@ class ProductsView(APIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        # Определяем scope прав пользователя
         user_perms = PermissionChecker.get_user_permissions(request.user)
         products_scope = user_perms.get("products", {}).get("read", "NONE")
 
-        # Фильтруем товары по scope
         if products_scope == "ALL":
             visible_products = MOCK_PRODUCTS
         elif products_scope == "OWN":

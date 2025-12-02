@@ -8,7 +8,6 @@ class PermissionMiddleware(MiddlewareMixin):
     """
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        # Проверяем, требуется ли аутентификация для этого view
         if hasattr(view_func, "cls"):
             view_class = view_func.cls
             if hasattr(view_class, "permission_classes"):
@@ -16,7 +15,6 @@ class PermissionMiddleware(MiddlewareMixin):
 
                 permission_classes = view_class.permission_classes
 
-                # Проверяем, требует ли view аутентификации
                 requires_auth = any(
                     perm == IsAuthenticated
                     or (isinstance(perm, type) and issubclass(perm, IsAuthenticated))

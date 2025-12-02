@@ -1,5 +1,3 @@
-# permissions/utils.py ДОЛЖЕН содержать ТОЛЬКО:
-
 from django.conf import settings
 from django.db.models import Q
 
@@ -40,13 +38,9 @@ class PermissionChecker:
             if rule.scope == "ALL":
                 return True
             elif rule.scope == "OWN":
-                # Если object_owner_id указан - проверяем совпадение
                 if object_owner_id is not None:
                     if user.id == object_owner_id:
                         return True
-                # Если object_owner_id не указан - считаем что право есть
-                # (пользователь может работать со своими объектами,
-                # но мы не знаем с какими именно)
                 else:
                     return True
 
@@ -78,7 +72,6 @@ class PermissionChecker:
         return permissions
 
 
-# УПРОЩЕННЫЙ декоратор без ошибок
 def check_permission(element_code, permission_code):
     def decorator(view_func):
         def wrapped_view(request, *args, **kwargs):

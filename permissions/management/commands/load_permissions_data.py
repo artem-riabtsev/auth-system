@@ -13,7 +13,6 @@ class Command(BaseCommand):
         BusinessElement.objects.all().delete()
         Role.objects.all().delete()
 
-        # Создаем роли
         admin_role, _ = Role.objects.get_or_create(
             name="Администратор",
             defaults={
@@ -37,7 +36,6 @@ class Command(BaseCommand):
             defaults={"description": "Ограниченный доступ", "is_default": False},
         )
 
-        # Создаем бизнес-элементы
         elements_data = [
             {
                 "name": "Пользователи",
@@ -69,7 +67,6 @@ class Command(BaseCommand):
             )
             elements[elem_data["code"]] = element
 
-        # Создаем типы разрешений
         permissions_data = [
             {"name": "Чтение", "code": "read", "description": "Просмотр записей"},
             {
@@ -92,7 +89,6 @@ class Command(BaseCommand):
             )
             permissions[perm_data["code"]] = permission
 
-        # Создаем правила доступа для администратора (все права на всё)
         for element in elements.values():
             for permission in permissions.values():
                 AccessRule.objects.get_or_create(
@@ -102,9 +98,7 @@ class Command(BaseCommand):
                     defaults={"scope": "ALL"},
                 )
 
-        # Правила для менеджера (read на всё, create/update на продукты и заказы)
         for element_code, element in elements.items():
-            # Все могут читать
             AccessRule.objects.get_or_create(
                 role=manager_role,
                 element=element,
@@ -112,7 +106,6 @@ class Command(BaseCommand):
                 defaults={"scope": "ALL"},
             )
 
-            # Менеджер может создавать/обновлять продукты и заказы
             if element_code in ["products", "orders"]:
                 for perm_code in ["create", "update"]:
                     AccessRule.objects.get_or_create(
@@ -122,12 +115,10 @@ class Command(BaseCommand):
                         defaults={"scope": "ALL"},
                     )
 
-        # Правила для пользователя (только свои объекты)
         user_elements = ["users", "products", "orders"]
         for element_code in user_elements:
             element = elements[element_code]
 
-            # Чтение своих объектов
             AccessRule.objects.get_or_create(
                 role=user_role,
                 element=element,
@@ -135,7 +126,6 @@ class Command(BaseCommand):
                 defaults={"scope": "OWN"},
             )
 
-            # Создание/обновление/удаление своих объектов
             for perm_code in ["create", "update", "delete"]:
                 AccessRule.objects.get_or_create(
                     role=user_role,
@@ -144,7 +134,6 @@ class Command(BaseCommand):
                     defaults={"scope": "OWN"},
                 )
 
-        # Правила для гостя (только чтение продуктов и магазинов)
         guest_elements = ["products", "stores"]
         for element_code in guest_elements:
             element = elements[element_code]
