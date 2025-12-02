@@ -35,6 +35,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
     deleted_at = models.DateTimeField(null=True, blank=True)
+    roles = models.ManyToManyField(
+        'permissions.Role',
+        related_name='users',
+        blank=True,
+        verbose_name='Роли'
+    )
     
     objects = UserManager()
     
