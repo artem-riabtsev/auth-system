@@ -15,79 +15,202 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='BusinessElement',
+            name="BusinessElement",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Название')),
-                ('code', models.CharField(max_length=50, unique=True, verbose_name='Код')),
-                ('description', models.TextField(blank=True, verbose_name='Описание')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, verbose_name="Название")),
+                (
+                    "code",
+                    models.CharField(max_length=50, unique=True, verbose_name="Код"),
+                ),
+                ("description", models.TextField(blank=True, verbose_name="Описание")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата создания"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Бизнес-элемент',
-                'verbose_name_plural': 'Бизнес-элементы',
-                'ordering': ['name'],
+                "verbose_name": "Бизнес-элемент",
+                "verbose_name_plural": "Бизнес-элементы",
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='PermissionType',
+            name="PermissionType",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, verbose_name='Название')),
-                ('code', models.CharField(max_length=50, unique=True, verbose_name='Код')),
-                ('description', models.TextField(blank=True, verbose_name='Описание')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50, verbose_name="Название")),
+                (
+                    "code",
+                    models.CharField(max_length=50, unique=True, verbose_name="Код"),
+                ),
+                ("description", models.TextField(blank=True, verbose_name="Описание")),
             ],
             options={
-                'verbose_name': 'Тип разрешения',
-                'verbose_name_plural': 'Типы разрешений',
-                'ordering': ['name'],
+                "verbose_name": "Тип разрешения",
+                "verbose_name_plural": "Типы разрешений",
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='Role',
+            name="Role",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True, verbose_name='Название роли')),
-                ('description', models.TextField(blank=True, verbose_name='Описание')),
-                ('is_default', models.BooleanField(default=False, verbose_name='Роль по умолчанию')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=50, unique=True, verbose_name="Название роли"
+                    ),
+                ),
+                ("description", models.TextField(blank=True, verbose_name="Описание")),
+                (
+                    "is_default",
+                    models.BooleanField(
+                        default=False, verbose_name="Роль по умолчанию"
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата создания"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Роль',
-                'verbose_name_plural': 'Роли',
-                'ordering': ['name'],
+                "verbose_name": "Роль",
+                "verbose_name_plural": "Роли",
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='AccessRule',
+            name="AccessRule",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('scope', models.CharField(choices=[('NONE', 'Нет доступа'), ('OWN', 'Только свои объекты'), ('ALL', 'Все объекты')], default='NONE', max_length=10, verbose_name='Область действия')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')),
-                ('element', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='permissions.businesselement', verbose_name='Элемент')),
-                ('permission_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='permissions.permissiontype', verbose_name='Тип разрешения')),
-                ('role', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='permissions.role', verbose_name='Роль')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "scope",
+                    models.CharField(
+                        choices=[
+                            ("NONE", "Нет доступа"),
+                            ("OWN", "Только свои объекты"),
+                            ("ALL", "Все объекты"),
+                        ],
+                        default="NONE",
+                        max_length=10,
+                        verbose_name="Область действия",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата создания"
+                    ),
+                ),
+                (
+                    "element",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="permissions.businesselement",
+                        verbose_name="Элемент",
+                    ),
+                ),
+                (
+                    "permission_type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="permissions.permissiontype",
+                        verbose_name="Тип разрешения",
+                    ),
+                ),
+                (
+                    "role",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="permissions.role",
+                        verbose_name="Роль",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Правило доступа',
-                'verbose_name_plural': 'Правила доступа',
-                'ordering': ['role', 'element'],
-                'unique_together': {('role', 'element', 'permission_type')},
+                "verbose_name": "Правило доступа",
+                "verbose_name_plural": "Правила доступа",
+                "ordering": ["role", "element"],
+                "unique_together": {("role", "element", "permission_type")},
             },
         ),
         migrations.CreateModel(
-            name='UserRole',
+            name="UserRole",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('assigned_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата назначения')),
-                ('role', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='permissions.role', verbose_name='Роль')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "assigned_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата назначения"
+                    ),
+                ),
+                (
+                    "role",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="permissions.role",
+                        verbose_name="Роль",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Пользователь",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Роль пользователя',
-                'verbose_name_plural': 'Роли пользователей',
-                'ordering': ['-assigned_at'],
-                'unique_together': {('user', 'role')},
+                "verbose_name": "Роль пользователя",
+                "verbose_name_plural": "Роли пользователей",
+                "ordering": ["-assigned_at"],
+                "unique_together": {("user", "role")},
             },
         ),
     ]

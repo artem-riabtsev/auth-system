@@ -1,18 +1,13 @@
 from django.urls import path
-from .views import (
-    RegisterView,
-    LoginView,
-    LogoutView,
-    RefreshTokenView,
-    UserProfileView,
-    DeleteAccountView
-)
+
+from .views import (DeleteAccountView, LoginView, LogoutView, RefreshTokenView,
+                    RegisterView, UserProfileView)
 
 urlpatterns = [
-    path('register/', RegisterView.as_view(), name='register'),
-    path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path('refresh/', RefreshTokenView.as_view(), name='refresh-token'),
-    path('profile/', UserProfileView.as_view(), name='profile'),
-    path('delete-account/', DeleteAccountView.as_view(), name='delete-account'),
+    path("register/", RegisterView.as_view(), name="register"),
+    path("login/", LoginView.as_view(), name="login"),
+    path("logout/", LogoutView.as_view(), name="logout"),
+    path("refresh/", RefreshTokenView.as_view(), name="refresh-token"),
+    path("profile/", UserProfileView.as_view(), name="profile"),
+    path("delete-account/", DeleteAccountView.as_view(), name="delete-account"),
 ]
