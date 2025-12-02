@@ -41,11 +41,11 @@ ROOT_URLCONF = 'auth_system.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.Templates',
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
-            'contextProcessors': [
+            'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -95,7 +95,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Default primary key field type
-DEFAULT_AUTO_FIELD = 'django.db.backends.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom user model
 AUTH_USER_MODEL = 'users.User'
