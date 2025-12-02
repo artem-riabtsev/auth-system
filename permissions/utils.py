@@ -2,6 +2,7 @@
 
 from django.conf import settings
 from django.db.models import Q
+
 from .models import AccessRule, BusinessElement, PermissionType, Role
 
 
@@ -44,11 +45,11 @@ class PermissionChecker:
                     if user.id == object_owner_id:
                         return True
                 # Если object_owner_id не указан - считаем что право есть
-                # (пользователь может работать со своими объектами, 
+                # (пользователь может работать со своими объектами,
                 # но мы не знаем с какими именно)
                 else:
                     return True
-        
+
         return False
 
     @staticmethod

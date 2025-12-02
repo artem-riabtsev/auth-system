@@ -8,6 +8,8 @@ from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
 from django.db import models
 from django.utils import timezone
 
+from permissions.models import Role
+
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -18,6 +20,9 @@ class UserManager(BaseUserManager):
         if password:
             user.set_password(password)
         user.save(using=self._db)
+        default_role = Role.objects.filter(is_default=True).first()
+        if default_role:
+            user.roles.add(default_role)
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):

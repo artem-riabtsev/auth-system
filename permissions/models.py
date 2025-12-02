@@ -18,6 +18,15 @@ class Role(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        # Если устанавливаем is_default=True для этой роли,
+        # снимаем is_default со всех других ролей
+        if self.is_default:
+            Role.objects.filter(is_default=True).exclude(id=self.id).update(
+                is_default=False
+            )
+        super().save(*args, **kwargs)
+
 
 class BusinessElement(models.Model):
     """Бизнес-элементы/ресурсы системы"""
